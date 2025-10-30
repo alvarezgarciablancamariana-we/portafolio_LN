@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="index">
+    <title>Tokens - Lenguaje Natural con Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .topic-number {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-button:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Secciones */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .function { color: #dcdcaa; }
+        .variable { color: #9cdcfe; }
+
+        /* Glosario */
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .glossary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .function-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .function-description {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-button">← Volver al inicio</a>
+        <div class="topic-number">Tema 09</div>
+        <h1>Analisis de sentimientos</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Ejemplo</h2>
+            <div class="code-block">
+                <pre>'''
+crear una frase larga con palabras repetidas donde exprese un sentimiento positivo
+y sentimientos negativos, analizar la frase completa, eliminando signos de puntuacion
+, tokenizando la frase, y recoriendo la frase con if contabilizar cuantas
+palabras positivas y cuants negativas se encontraron, y de ahi determinar
+si la frase es positiva o negativa
+'''
+
+#creando listas con palabras para detectar el sentir de la frase
+palabraspositivas=['feliz','contento','maravillosa','bonito','bonita','color']
+palabrasnegativas=['triste','solo','aburrido','malo','deprimido','horrible','muerto','demonios']
+
+frase="solo, triste feliz bonito color"
+
+texto_limpio=frase.replace(",","").replace(".","").lower()
+palabras = texto_limpio.lower().split()
+verificadas=[]
+positivos=0
+negativos=0
+
+for palabra in palabras:
+    if palabra  in palabraspositivas:
+        positivos += 1
+    if palabra in palabrasnegativas:
+        negativos +=1
+
+print("palabras positivos;",positivos)
+print("palabras negativas:",negativos)
+
+for palabra in palabras: #python esta dentro de tokens
+    if palabra not in verificadas:
+        print(palabra,"tiene",len(palabra),"letras")
+        verificadas.append(palabra)
+
+if positivos > negativos:
+    print("Tu frase es positiva")
+
+elif negativos > positivos:
+    print("Tu frase es negativa")</pre>
+            </div>
+        </section>
+
+        <!-- Sección de Glosario -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones</h2>
+            
+            <div class="glossary-item">
+                <div class="function-name">replace()</div>
+                <div class="function-description">
+                   Sirve para eliminar signos de puntuación (como comas o puntos).
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">lower()</div>
+                <div class="function-description">
+                    Devuelve un conjunto (set) con los tokens únicos del texto, eliminando duplicados. Útil para conocer el vocabulario utilizado sin repeticiones.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">split()</div>
+                <div class="function-description">
+                    Divide una cadena de texto en una lista de palabras (tokens).
+Permite analizar palabra por palabra.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">for ... in ...</div>
+                <div class="function-description">
+                    Crea un bucle que recorre cada elemento de una lista.
+Se usa para procesar todas las palabras de la frase.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">if ... in ...</div>
+                <div class="function-description">
+                   Verifica si un elemento está dentro de una lista.
+Se usa para saber si una palabra es positiva o negativa.
+                </div>
+            </div>
+
+
+            <div class="glossary-item">
+                <div class="function-name">len()</div>
+                <div class="function-description">
+                   Devuelve la cantidad de caracteres (letras) que tiene una palabra.
+Se usa para contar cuántas letras tiene cada palabra única.
+                </div>
+            </div>
+
+
+            <div class="glossary-item">
+                <div class="function-name">append()</div>
+                <div class="function-description">
+                   Agrega un nuevo elemento al final de una lista.
+En el código se usa para guardar palabras ya verificadas y no repetirlas.
+                </div>
+            </div>
+
+
+            <div class="glossary-item">
+                <div class="function-name">if / elif / else</div>
+                <div class="function-description">
+                   Estructura condicional que evalúa distintas opciones.
+En el programa, determina si la frase es positiva, negativa o neutra.
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
