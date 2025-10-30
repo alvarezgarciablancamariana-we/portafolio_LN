@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="index">
+    <title>Tokens - Lenguaje Natural con Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .topic-number {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-button:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Secciones */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .function { color: #dcdcaa; }
+        .variable { color: #9cdcfe; }
+
+        /* Glosario */
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .glossary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .function-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .function-description {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-button">← Volver al inicio</a>
+        <div class="topic-number">Tema 02</div>
+        <h1>Bucle for</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Ejemplo</h2>
+            <div class="code-block">
+                <pre>from tokens import texto_Limpio
+
+numeros=[1,2,3,4,5]
+
+for num in numeros:
+    print(num)
+########################
+frutas=["manzana","banana","cereza"]
+
+for fruta in frutas:
+    print("Núymero:",1)
+
+##############################
+palabra="python"
+
+for letra in palabra:
+    print(letra)
+#########################
+texto_limpio="hola mundo esto es python"
+tokens=texto_limpio.split()
+
+for token in tokens:
+    print("token;",tokens)</pre>
+            </div>
+        </section>
+
+        <!-- Sección de Glosario -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones</h2>
+            
+            <div class="glossary-item">
+                <div class="function-name">from tokens import texto_Limpio</div>
+                <div class="function-description">
+                   Importa una variable o función llamada texto_Limpio desde un módulo llamado tokens (aunque en este caso no es necesario si defines la variable en el mismo archivo).
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">numeros = [1, 2, 3, 4, 5]</div>
+                <div class="function-description">
+                   Crea una lista de números enteros.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">for num in numeros:</div>
+                <div class="function-description">
+                   Inicia un bucle que recorre cada elemento de la lista numeros y asigna cada valor a la variable num
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">frutas = ["manzana", "banana", "cereza"]</div>
+                <div class="function-description">
+                   Define una lista de cadenas de texto (palabras) que representan frutas.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">for fruta in frutas:</div>
+                <div class="function-description">
+                   Recorre cada elemento de la lista frutas y asigna cada valor a la variable fruta.
+
+palabra = "python"
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">for letra in palabra:</div>
+                <div class="function-description">
+                  Recorre cada carácter de la cadena y lo muestra individualmente.
+                </div>
+            </div>
+              <div class="glossary-item">
+                <div class="function-name">texto_limpio = "hola mundo esto es python"</div>
+                <div class="function-description">
+                 Guarda una cadena de texto en una variable.
+                </div>
+            </div>
+              <div class="glossary-item">
+                <div class="function-name">for token in tokens:</div>
+                <div class="function-description">
+                 Recorre cada palabra en la lista tokens.
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
