@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="index">
+    <title>Chatbots- Lenguaje Natural con Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .topic-number {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-button:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Secciones */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .function { color: #dcdcaa; }
+        .variable { color: #9cdcfe; }
+
+        /* Glosario */
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .glossary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .function-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .function-description {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-button">← Volver al inicio</a>
+        <div class="topic-number">Tema 10</div>
+        <h1>Chatbot listas</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Ejemplo</h2>
+            <div class="code-block">
+                <pre>#ejemplo de chatbot con lislas basico
+import random
+
+#Lista de saludos y respuestas
+saludos=["hola","que tal","buenos dias","buenas tardes", "buen dia"]
+respuesta_saludos=["hola, como estas?",
+                   "como puedo ayudarte",
+                   "hola, como te va",
+                   "que hay?"]
+
+despedida=["adios","bye","gracias","nos vemos","hasta luego","salir"]
+respuesta_despedida=[
+    "adios","hasta pronto",
+    "fue un placer ayudarte",
+    "cuidate",
+    "nos vemos luego"
+    "bye"
+]
+
+pregunta1=["¿como estas?"]
+pregunta2=[ "¿que haces?"]
+pregunta3=["¿puedes contarme un chiste?"]
+pregunta4=["¿te gusta hablar conmigo?"]
+respuestas_preguntas1=["¡Estoy genial! Gracias por preguntar",
+                       "¡Me encuentro muy bien!",
+                       "¡Estoy bien!"]
+respuestas_preguntas2=["¡Estoy aqui,listo para ayudarte!",
+                       "¡Esperando para ayudarte en lo que necesites",
+                       "¡Listo para empezar a ayudarte!"]
+respuestas_preguntas3=["¡Claro!, ¿por que la gallina cruzo la calle? para llegar al otro lado",
+                       "¿Por que la ballena no se subio a la combi? porque va llena"]
+respuestas_preguntas4=["¡Por supuesto! eres mi amigo de confianza",
+                       "¡obvio microbio!",
+                       "¡Me encanta conversar contigo"]
+
+preguntas_ia=["¿como te llamas?"]
+respuesta_ia=["Soy chato, tu IA de confianza",
+              "Me llamo Chato, soy tu chatbot favorito"]
+
+#mensaje de bienvenida del chatbot
+print("Hola soy Chato, tu Chatbot de confianza, si deseas"
+      "terminar escribe 'salir")
+
+while True:
+    usuario=input("Tu:").lower().strip()
+
+    if usuario in saludos:
+        print("chatbot:",random.choice(respuesta_saludos))
+    elif usuario in preguntas_ia:
+        print("chatbot:", random.choice(respuesta_ia))
+    elif usuario in pregunta1:
+        print("chatbot:", random.choice(respuestas_preguntas1))
+    elif usuario in pregunta2:
+        print("chatbot:", random.choice(respuestas_preguntas2))
+    elif usuario in pregunta3:
+        print("chatbot:", random.choice(respuestas_preguntas3))
+    elif usuario in pregunta4:
+        print("chatbot:", random.choice(respuestas_preguntas4))
+    elif usuario in despedida:
+        print("chatbot:", random.choice(respuesta_despedida))
+        break
+</pre>
+            </div>
+        </section>
+
+        <!-- Sección de Glosario -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones</h2>
+            
+            <div class="glossary-item">
+                <div class="function-name">import random</div>
+                <div class="function-description">
+                   Importa el módulo random, que permite generar respuestas aleatorias.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">random.choice(lista)</div>
+                <div class="function-description">
+                   Elige un elemento al azar de una lista (por ejemplo, una respuesta aleatoria del chatbot).
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">print()</div>
+                <div class="function-description">
+                    Muestra texto o información en la pantalla.
+                </div>
+            </div>
+
+             <div class="glossary-item">
+                <div class="function-name">input()</div>
+                <div class="function-description">
+                    Permite que el usuario escriba un mensaje para interactuar con el chatbot.
+                </div>
+            </div>
+
+             <div class="glossary-item">
+                <div class="function-name">lower()</div>
+                <div class="function-description">
+                   Convierte todo el texto del usuario a minúsculas para evitar errores de comparación.
+                </div>
+            </div>
+
+             <div class="glossary-item">
+                <div class="function-name">strip()</div>
+                <div class="function-description">
+                   Elimina espacios en blanco al inicio y al final del texto ingresado por el usuario.
+                </div>
+            </div>
+
+              <div class="glossary-item">
+                <div class="function-name">if / elif / else</div>
+                <div class="function-description">
+                  Estructura condicional que permite tomar decisiones dependiendo del texto que el usuario escriba.
+                </div>
+            </div>
+
+              <div class="glossary-item">
+                <div class="function-name">break</div>
+                <div class="function-description">
+                   Detiene el ciclo while True, usado aquí para terminar la conversación cuando el usuario escribe una despedida.
+                </div>
+            </div>
+
+             <div class="glossary-item">
+                <div class="function-name">while True:</div>
+                <div class="function-description">
+                  Crea un bucle infinito que mantiene activo el chatbot hasta que el usuario escriba "salir".
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
