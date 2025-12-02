@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="index">
+    <title>Tokens - Lenguaje Natural con Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .topic-number {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-button:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Secciones */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .function { color: #dcdcaa; }
+        .variable { color: #9cdcfe; }
+
+        /* Glosario */
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .glossary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .function-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .function-description {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-button">← Volver al inicio</a>
+        <div class="topic-number">Tema 12</div>
+        <h1>Chatbot componentes</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Ejemplo</h2>
+            <div class="code-block">
+                <pre>#Crear un chatbot, que nos ayude a aprender sobre los
+#componentes de arduino en una lista cargar todos los componentes
+#enlistados en roborealm, y preguntar
+#al chatbot que componente desea aprender y
+#este te debe contestar el concepto del componente seleccionado
+#si al escribir el componente lo escribes mal, el chatbot
+#te debe indicar que no entiende lo que escribiste
+#y pedirte que escribas correctamente el componente
+
+componentes=[
+  { "nombre": "Protoboard", "concepto": "Tablero para crear circuitos sin necesidad de soldar." },
+  { "nombre": "Protoboard de expansión", "concepto": "Extensión adicional para aumentar el área de conexión." },
+  { "nombre": "Módulo LCD", "concepto": "Pantalla para mostrar texto y datos del proyecto." },
+  { "nombre": "Sensor ultrasónico", "concepto": "Mide distancia mediante ondas de ultrasonido." },
+  { "nombre": "Arduino Nano", "concepto": "Placa microcontroladora pequeña y versátil." },
+  { "nombre": "Módulo de joystick", "concepto": "Control analógico para dirección y selección." },
+  { "nombre": "Controlador de motor paso a paso", "concepto": "Permite controlar motores paso a paso." },
+  { "nombre": "Motor paso a paso", "concepto": "Motor que gira por pasos precisos." },
+  { "nombre": "Servomotor", "concepto": "Motor que controla posición mediante PWM." },
+  { "nombre": "Motor de 3 a 6 voltios", "concepto": "Motor DC pequeño para proyectos básicos." },
+  { "nombre": "Aspa de ventilador", "concepto": "Hélice utilizada para generar flujo de aire." },
+  { "nombre": "Módulo de relé de 5V", "concepto": "Interruptor electrónico para controlar cargas externas." },
+  { "nombre": "Potenciómetro", "concepto": "Resistencia variable ajustable manualmente." },
+  { "nombre": "Buzzer pasivo", "concepto": "Genera tonos mediante señales PWM." },
+  { "nombre": "Buzzer activo", "concepto": "Emite sonido constante al recibir corriente." },
+  { "nombre": "Botones", "concepto": "Interruptores momentáneos para entrada de usuario." },
+  { "nombre": "Pantalla de 4 dígitos y 7 segmentos", "concepto": "Muestra números utilizando 4 dígitos LED." },
+  { "nombre": "Pantalla de 1 dígito y 7 segmentos", "concepto": "Muestra un solo número LED." },
+  { "nombre": "Interruptores de membrana", "concepto": "Teclado plano con botones tipo membrana." },
+  { "nombre": "Control Remoto", "concepto": "Dispositivo IR para enviar comandos a sensores receptores." },
+  { "nombre": "Registro de turnos 74HC595", "concepto": "Expansor de pines para controlar múltiples salidas." },
+  { "nombre": "Fotoresistencia", "concepto": "Sensor de luz basado en variación de resistencia." },
+  { "nombre": "Cables tipo Dupont", "concepto": "Cables para conexiones macho/macho, macho/hembra o hembra/hembra." },
+  { "nombre": "Cable USB", "concepto": "Permite alimentar y programar la placa Arduino." },
+  { "nombre": "Clip de batería con conector", "concepto": "Adaptador para conectar baterías de 9V." },
+  { "nombre": "Resistor", "concepto": "Limita el paso de corriente en el circuito." },
+  { "nombre": "LED RGB", "concepto": "LED capaz de emitir luz roja, verde y azul." },
+  { "nombre": "LEDs", "concepto": "Diodos emisores de luz de un solo color." },
+  { "nombre": "Circuito integrado L293D", "concepto": "Driver para controlar motores DC y stepper." },
+  { "nombre": "Sensor de inclinación", "concepto": "Detecta cambios de posición o inclinación." },
+  { "nombre": "Transistor PN2222", "concepto": "Transistor NPN usado como interruptor o amplificador." },
+  { "nombre": "Diodo 1N4007", "concepto": "Protege contra corriente inversa." },
+  { "nombre": "Termistor", "concepto": "Resistencia que varía con la temperatura." },
+  { "nombre": "Cable jumper o cable de puente", "concepto": "Cable para unir puntos en la protoboard." },
+  { "nombre": "Adaptador de poder", "concepto": "Fuente externa para alimentar placas y módulos." }
+]
+
+
+print("CHATBOT DE COMPONENTES DE ARDUINO")
+print("----------------------------------------------")
+print("Componentes disponibles")
+for c in componentes:
+    print("-",c["nombre"])
+
+while True:
+    componente=input("\n¿Sobre que componente deseas aprender?").strip().lower()
+
+    encontrado= False
+
+    for x in componentes:
+        if x["nombre"].lower() == componente:
+            print(f"\nConcepto de '{x['nombre']}':")
+            print(x["concepto"])
+            encontrado= True
+            break
+
+    if encontrado:
+         break
+    else:
+         print("no entiendo ese componente")
+         print("Por favor, verifica la ortografia e intentalo de nuevo")</pre>
+            </div>
+        </section>
+
+        <!-- Sección de Glosario -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones</h2>
+            
+            <div class="glossary-item">
+                <div class="function-name">print()</div>
+                <div class="function-description">
+                    Muestra texto en la pantalla de la consola.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">for</div>
+                <div class="function-description">
+                   Recorre todos los elementos de la lista componentes para imprimirlos o compararlos.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">while True:</div>
+                <div class="function-description">
+                    Crea un ciclo infinito para que el programa siga pidiendo un componente hasta que se escriba uno correcto.
+                </div>
+            </div>
+
+
+            <div class="glossary-item">
+                <div class="function-name">input()</div>
+                <div class="function-description">
+                   Permite que el usuario escriba el nombre del componente que quiere aprender.
+                </div>
+            </div>
+
+
+            <div class="glossary-item">
+                <div class="function-name">.lower()</div>
+                <div class="function-description">
+                   Convierte el texto a minúsculas para comparar sin importar cómo lo escribió el usuario.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">if</div>
+                <div class="function-description">
+                  Verifica si el componente escrito coincide con algún elemento de la lista.
+                </div>
+            </div>
+
+             <div class="glossary-item">
+                <div class="function-name">break</div>
+                <div class="function-description">
+                  Sale del ciclo cuando el componente fue encontrado correctamente.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">else</div>
+                <div class="function-description">
+                  Se ejecuta cuando el componente no coincide con ninguno; muestra error y pide reintentar.
+                </div>
+            </div>
+
+             <div class="glossary-item">
+                <div class="function-name">componentes = [...]</div>
+                <div class="function-description">
+                  Es la lista que contiene todos los componentes y sus conceptos en formato de diccionario.
+                </div>
+            </div>
+
+             <div class="glossary-item">
+                <div class="function-name">"nombre" / "concepto"</div>
+                <div class="function-description">
+                  Llaves dentro del diccionario que almacenan el nombre del componente y su explicación.
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
