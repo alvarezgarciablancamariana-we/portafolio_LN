@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librerías de PNL para Chatbot - Lenguaje Natural con Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #4a90e2 0%, #5ca9fb 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .topic-number {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-button:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Secciones */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #4a90e2;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-subtitle {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #5ca9fb;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .function { color: #dcdcaa; }
+        .variable { color: #9cdcfe; }
+
+        /* Library Cards */
+        .library-card {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #e8f4fd 0%, #d6ebff 100%);
+            border-radius: 8px;
+            border-left: 4px solid #4a90e2;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .library-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .library-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .library-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #4a90e2;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .library-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .install-command {
+            background: #2d2d2d;
+            color: #4ec9b0;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            margin-top: 0.8rem;
+            display: inline-block;
+        }
+
+        .library-features {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .library-features li {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Category Headers */
+        .category-header {
+            background: linear-gradient(135deg, #4a90e2 0%, #5ca9fb 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .category-icon {
+            font-size: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .library-card {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-button">← Volver al inicio</a>
+        <div class="topic-number">Tema 13 ✨ NUEVO</div>
+        <h1>📚 Librerías de PNL para Chatbot</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Introducción -->
+        <section class="section">
+            <h2 class="section-title">Introducción</h2>
+            <p class="intro-text">
+                Python ofrece una amplia variedad de librerías para crear chatbots con diferentes niveles de complejidad. 
+                Desde chatbots básicos con procesamiento de lenguaje natural (PLN) hasta sistemas avanzados con inteligencia 
+                artificial, pasando por integraciones con plataformas de mensajería y aplicaciones web. En esta guía 
+                exploraremos las principales librerías organizadas por categoría.
+            </p>
+        </section>
+
+        <!-- Categoría 1: Chatbots con PLN -->
+        <section class="section">
+            <div class="category-header">
+                <span class="category-icon">🔤</span>
+                <span>Chatbots con PLN (Procesamiento de Lenguaje Natural)</span>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">NLTK (Natural Language Toolkit)</div>
+                <div class="library-description">
+                    La librería más completa para PLN en Python. Perfecta para tokenización, análisis gramatical, 
+                    clasificación de texto y extracción de información.
+                </div>
+                <div class="install-command">pip install nltk</div>
+                <ul class="library-features">
+                    <li>Tokenización de palabras y oraciones</li>
+                    <li>Eliminación de stopwords (palabras vacías)</li>
+                    <li>Stemming y Lemmatización</li>
+                    <li>Análisis de frecuencia de palabras</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Ejemplo básico con NLTK
+import nltk
+nltk.download('punkt')
+from nltk.tokenize import word_tokenize
+
+texto = "Hola, ¿cómo estás hoy?"
+tokens = word_tokenize(texto)
+print(tokens)
+# ['Hola', ',', '¿', 'cómo', 'estás', 'hoy', '?']</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">TextBlob</div>
+                <div class="library-description">
+                    Librería simple para análisis de sentimientos, traducción y corrección ortográfica. 
+                    Ideal para chatbots que necesitan detectar emociones.
+                </div>
+                <div class="install-command">pip install textblob</div>
+                <ul class="library-features">
+                    <li>Análisis de sentimientos (polaridad y subjetividad)</li>
+                    <li>Traducción entre idiomas</li>
+                    <li>Corrección ortográfica</li>
+                    <li>Extracción de sustantivos y frases</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Análisis de sentimientos con TextBlob
+from textblob import TextBlob
+
+texto = "Me encanta Python, es genial!"
+analisis = TextBlob(texto)
+print(analisis.sentiment)
+# Sentiment(polarity=0.6, subjectivity=0.9)</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">spaCy</div>
+                <div class="library-description">
+                    Librería moderna y rápida para PLN industrial. Excelente para reconocimiento de entidades 
+                    y análisis sintáctico avanzado.
+                </div>
+                <div class="install-command">pip install spacy</div>
+                <div class="install-command">python -m spacy download es_core_news_sm</div>
+                <ul class="library-features">
+                    <li>Reconocimiento de entidades nombradas (NER)</li>
+                    <li>Análisis de dependencias sintácticas</li>
+                    <li>Clasificación de texto</li>
+                    <li>Modelos preentrenados en múltiples idiomas</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Ejemplo con spaCy
+import spacy
+
+nlp = spacy.load("es_core_news_sm")
+doc = nlp("Apple está buscando comprar una startup en México")
+
+for entidad in doc.ents:
+    print(entidad.text, entidad.label_)
+# Apple ORG
+# México LOC</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">googletrans</div>
+                <div class="library-description">
+                    Librería para traducción automática usando Google Translate. Útil para chatbots multilingües.
+                </div>
+                <div class="install-command">pip install googletrans==4.0.0-rc1</div>
+                <ul class="library-features">
+                    <li>Traducción a más de 100 idiomas</li>
+                    <li>Detección automática de idioma</li>
+                    <li>Integración simple con Google Translate API</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Traductor con googletrans
+from googletrans import Translator
+
+translator = Translator()
+resultado = translator.translate("Hello World", dest='es')
+print(resultado.text)
+# Hola Mundo</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categoría 2: Chatbots con IA -->
+        <section class="section">
+            <div class="category-header">
+                <span class="category-icon">🤖</span>
+                <span>Chatbots con Inteligencia Artificial</span>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">ChatterBot</div>
+                <div class="library-description">
+                    Librería de machine learning para crear chatbots conversacionales que aprenden de las interacciones.
+                </div>
+                <div class="install-command">pip install chatterbot</div>
+                <div class="install-command">pip install chatterbot-corpus</div>
+                <ul class="library-features">
+                    <li>Aprendizaje automático de conversaciones</li>
+                    <li>Corpus de entrenamiento preconfigurado</li>
+                    <li>Entrenamiento personalizado</li>
+                    <li>Soporte para múltiples idiomas</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Chatbot con ChatterBot
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+
+chatbot = ChatBot('MiBot')
+trainer = ChatterBotCorpusTrainer(chatbot)
+trainer.train("chatterbot.corpus.spanish")
+
+respuesta = chatbot.get_response("Hola, ¿cómo estás?")
+print(respuesta)</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">Rasa</div>
+                <div class="library-description">
+                    Framework completo de código abierto para crear asistentes conversacionales avanzados con IA.
+                </div>
+                <div class="install-command">pip install rasa</div>
+                <ul class="library-features">
+                    <li>Comprensión de lenguaje natural (NLU)</li>
+                    <li>Gestión de diálogos con machine learning</li>
+                    <li>Entrenamiento de modelos personalizados</li>
+                    <li>Integración con múltiples canales</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Inicializar proyecto Rasa
+# En terminal:
+rasa init
+
+# Entrenar el modelo
+rasa train
+
+# Ejecutar el chatbot
+rasa shell</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">Transformers (Hugging Face)</div>
+                <div class="library-description">
+                    Acceso a modelos de IA de última generación como GPT, BERT y otros modelos transformer.
+                </div>
+                <div class="install-command">pip install transformers</div>
+                <div class="install-command">pip install torch</div>
+                <ul class="library-features">
+                    <li>Modelos preentrenados de última generación</li>
+                    <li>Generación de texto conversacional</li>
+                    <li>Fine-tuning de modelos</li>
+                    <li>Soporte para múltiples tareas de PLN</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Chatbot con GPT-2
+from transformers import pipeline
+
+generador = pipeline('text-generation', model='gpt2')
+respuesta = generador("¿Qué es Python?", max_length=50)
+print(respuesta[0]['generated_text'])</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">OpenAI API (Python SDK)</div>
+                <div class="library-description">
+                    Acceso oficial a modelos GPT de OpenAI para crear chatbots de conversación avanzada.
+                </div>
+                <div class="install-command">pip install openai</div>
+                <ul class="library-features">
+                    <li>Acceso a GPT-4, GPT-3.5 y otros modelos</li>
+                    <li>Conversaciones contextuales</li>
+                    <li>Personalización de comportamiento</li>
+                    <li>Generación de respuestas naturales</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Chatbot con OpenAI API
+import openai
+
+openai.api_key = 'tu-api-key'
+
+respuesta = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "user", "content": "¿Qué es Python?"}
+    ]
+)
+print(respuesta.choices[0].message.content)</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categoría 3: Chatbots en Plataformas -->
+        <section class="section">
+            <div class="category-header">
+                <span class="category-icon">💬</span>
+                <span>Chatbots Conectados a Plataformas (WhatsApp, Telegram, etc.)</span>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">Twilio API</div>
+                <div class="library-description">
+                    Crea chatbots para WhatsApp, SMS y llamadas telefónicas con capacidades de comunicación empresarial.
+                </div>
+                <div class="install-command">pip install twilio</div>
+                <ul class="library-features">
+                    <li>Integración oficial con WhatsApp Business</li>
+                    <li>Envío y recepción de mensajes SMS</li>
+                    <li>Llamadas de voz automatizadas</li>
+                    <li>Webhooks para respuestas en tiempo real</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Chatbot WhatsApp con Twilio
+from twilio.rest import Client
+
+account_sid = 'tu_account_sid'
+auth_token = 'tu_auth_token'
+client = Client(account_sid, auth_token)
+
+message = client.messages.create(
+    from_='whatsapp:+14155238886',
+    body='¡Hola desde Python!',
+    to='whatsapp:+521234567890'
+)
+print(message.sid)</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">python-telegram-bot</div>
+                <div class="library-description">
+                    Librería completa para crear bots de Telegram con soporte para comandos, botones y multimedia.
+                </div>
+                <div class="install-command">pip install python-telegram-bot</div>
+                <ul class="library-features">
+                    <li>Manejo de comandos y mensajes</li>
+                    <li>Teclados personalizados (inline y reply)</li>
+                    <li>Envío de imágenes, audio y documentos</li>
+                    <li>Grupos y canales</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Bot básico de Telegram
+from telegram.ext import Updater, CommandHandler
+
+def hola(update, context):
+    update.message.reply_text('¡Hola! Soy tu bot')
+
+updater = Updater('TU_TOKEN_DE_BOT')
+updater.dispatcher.add_handler(CommandHandler('hola', hola))
+updater.start_polling()
+updater.idle()</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">discord.py</div>
+                <div class="library-description">
+                    Crea bots para Discord con funcionalidades de chat, música, moderación y juegos.
+                </div>
+                <div class="install-command">pip install discord.py</div>
+                <ul class="library-features">
+                    <li>Comandos y eventos de Discord</li>
+                    <li>Gestión de roles y permisos</li>
+                    <li>Envío de embeds personalizados</li>
+                    <li>Reproducción de audio</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Bot de Discord
+import discord
+from discord.ext import commands
+
+bot = commands.Bot(command_prefix='!')
+
+@bot.command()
+async def hola(ctx):
+    await ctx.send('¡Hola desde Python!')
+
+bot.run('TU_TOKEN')</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">pywhatkit</div>
+                <div class="library-description">
+                    Automatización sencilla para enviar mensajes de WhatsApp programados sin API oficial.
+                </div>
+                <div class="install-command">pip install pywhatkit</div>
+                <ul class="library-features">
+                    <li>Envío de mensajes programados</li>
+                    <li>Envío de imágenes y archivos</li>
+                    <li>No requiere API de pago</li>
+                    <li>Usa WhatsApp Web</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Enviar mensaje con pywhatkit
+import pywhatkit
+
+# Enviar mensaje a las 10:30 AM
+pywhatkit.sendwhatmsg("+521234567890", 
+                      "¡Hola desde Python!", 
+                      10, 30)</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categoría 4: Chatbots en Páginas Web -->
+        <section class="section">
+            <div class="category-header">
+                <span class="category-icon">🌐</span>
+                <span>Chatbots en Páginas Web</span>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">Flask / Flask-SocketIO</div>
+                <div class="library-description">
+                    Framework web ligero para crear chatbots embebidos en sitios web con comunicación en tiempo real.
+                </div>
+                <div class="install-command">pip install flask</div>
+                <div class="install-command">pip install flask-socketio</div>
+                <ul class="library-features">
+                    <li>Servidor web simple y rápido</li>
+                    <li>WebSockets para chat en tiempo real</li>
+                    <li>Integración con HTML/CSS/JavaScript</li>
+                    <li>API REST para chatbots</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Chatbot web con Flask
+from flask import Flask, render_template, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    mensaje = request.json['mensaje']
+    respuesta = f"Recibí: {mensaje}"
+    return jsonify({'respuesta': respuesta})
+
+if __name__ == '__main__':
+    app.run(debug=True)</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">FastAPI</div>
+                <div class="library-description">
+                    Framework moderno y rápido para crear APIs de chatbot con documentación automática.
+                </div>
+                <div class="install-command">pip install fastapi</div>
+                <div class="install-command">pip install uvicorn</div>
+                <ul class="library-features">
+                    <li>Alto rendimiento (async/await)</li>
+                    <li>Documentación automática (Swagger)</li>
+                    <li>Validación de datos automática</li>
+                    <li>WebSockets integrados</li>
+                </ul>
+                <div class="code-block">
+                    <pre># API de chatbot con FastAPI
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class Mensaje(BaseModel):
+    texto: str
+
+@app.post("/chat")
+def chat(mensaje: Mensaje):
+    return {"respuesta": f"Procesando: {mensaje.texto}"}
+
+# Ejecutar: uvicorn main:app --reload</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">Streamlit</div>
+                <div class="library-description">
+                    Crea interfaces web interactivas para chatbots sin necesidad de HTML/CSS/JavaScript.
+                </div>
+                <div class="install-command">pip install streamlit</div>
+                <ul class="library-features">
+                    <li>Interfaz web sin código frontend</li>
+                    <li>Widgets interactivos incorporados</li>
+                    <li>Actualización automática</li>
+                    <li>Ideal para prototipos rápidos</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Chatbot UI con Streamlit
+import streamlit as st
+
+st.title("Mi Chatbot 🤖")
+
+if 'mensajes' not in st.session_state:
+    st.session_state.mensajes = []
+
+entrada = st.text_input("Escribe tu mensaje:")
+
+if entrada:
+    st.session_state.mensajes.append({"user": entrada})
+    respuesta = f"Recibí: {entrada}"
+    st.session_state.mensajes.append({"bot": respuesta})
+
+for msg in st.session_state.mensajes:
+    if "user" in msg:
+        st.write(f"👤 {msg['user']}")
+    else:
+        st.write(f"🤖 {msg['bot']}")
+
+# Ejecutar: streamlit run app.py</pre>
+                </div>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">Gradio</div>
+                <div class="library-description">
+                    Crea interfaces web para modelos de ML y chatbots de manera simple y rápida.
+                </div>
+                <div class="install-command">pip install gradio</div>
+                <ul class="library-features">
+                    <li>Interfaz web en 3 líneas de código</li>
+                    <li>Compartir públicamente con un link</li>
+                    <li>Componentes preconstruidos</li>
+                    <li>Ideal para demos de IA</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Chatbot con Gradio
+import gradio as gr
+
+def responder(mensaje, historial):
+    historial = historial or []
+    respuesta = f"Recibí tu mensaje: {mensaje}"
+    historial.append((mensaje, respuesta))
+    return historial, historial
+
+chatbot = gr.Chatbot()
+msg = gr.Textbox()
+clear = gr.Button("Limpiar")
+
+demo = gr.Interface(
+    fn=responder,
+    inputs=[msg, chatbot],
+    outputs=[chatbot, chatbot]
+)
+
+demo.launch()</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Librerías Complementarias -->
+        <section class="section">
+            <h2 class="section-title">🛠️ Librerías Complementarias</h2>
+            
+            <div class="library-card">
+                <div class="library-name">opencv-python (cv2)</div>
+                <div class="library-description">
+                    Procesamiento de imágenes para chatbots que necesitan reconocimiento visual.
+                </div>
+                <div class="install-command">pip install opencv-python</div>
+                <ul class="library-features">
+                    <li>Detección de rostros y objetos</li>
+                    <li>Procesamiento de imágenes en tiempo real</li>
+                    <li>Filtros y transformaciones</li>
+                </ul>
+            </div>
+
+            <div class="library-card">
+                <div class="library-name">pytesseract</div>
+                <div class="library-description">
+                    OCR (reconocimiento óptico de caracteres) para extraer texto de imágenes.
+                </div>
+                <div class="install-command">pip install pytesseract</div>
+                <div class="install-command">
+                    # También necesitas instalar Tesseract OCR en tu sistema
+                </div>
+                <ul class="library-features">
+                    <li>Extracción de texto de imágenes</li>
+                    <li>Soporte multiidioma</li>
+                    <li>Útil para chatbots que procesan documentos</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Extraer texto de imagen
+import pytesseract
+from PIL import Image
+
+imagen = Image.open('documento.png')
+texto = pytesseract.image_to_string(imagen, lang='spa')
+print(texto)</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusión -->
+        <section class="section">
+            <h2 class="section-title">💡 Conclusión</h2>
+            <p class="intro-text">
+                Python ofrece un ecosistema completo para crear chatbots de cualquier tipo. Desde chatbots simples 
+                con procesamiento de texto hasta asistentes conversacionales avanzados con IA, integraciones con 
+                plataformas de mensajería y aplicaciones web interactivas. La elección de la librería dependerá de:
+            </p>
+            <ul class="library-features">
+                <li><strong>Complejidad:</strong> ¿Necesitas PLN básico o IA avanzada?</li>
+                <li><strong>Plataforma:</strong> ¿Web, WhatsApp, Telegram, Discord?</li>
+                <li><strong>Recursos:</strong> ¿Código abierto o APIs de pago?</li>
+                <li><strong>Experiencia:</strong> ¿Eres principiante o desarrollador avanzado?</li>
+            </ul>
+            <p class="intro-text" style="margin-top: 1rem;">
+                <strong>Recomendación para comenzar:</strong> Empieza con TextBlob + Flask para crear un chatbot 
+                web simple con análisis de sentimientos, luego avanza a Rasa o ChatterBot para implementar 
+                machine learning, y finalmente integra con plataformas usando Twilio o python-telegram-bot.
+            </p>
+        </section>
+    </div>
+</body>
+</html>
