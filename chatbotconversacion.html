@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="index">
+    <title>Tokens - Lenguaje Natural con Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .topic-number {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-button:hover {
+            opacity: 1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Secciones */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* Código */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        /* Syntax highlighting */
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .function { color: #dcdcaa; }
+        .variable { color: #9cdcfe; }
+
+        /* Glosario */
+        .glossary-item {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .glossary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .function-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .function-description {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .code-block {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="back-button">← Volver al inicio</a>
+        <div class="topic-number">Tema 14</div>
+        <h1>Chatbot conversación</h1>
+    </header>
+
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Sección de Código -->
+        <section class="section">
+            <h2 class="section-title">Código del Ejemplo</h2>
+            <div class="code-block">
+                <pre>import nltk
+from nltk.tokenize import word_tokenize
+import random
+
+# Descargando recursos para el tokenizador
+nltk.download('punkt_tab', quiet=True)
+
+respuestas = {
+    "hola": ["hola!,¿en que puedo ayudarte en servicios escolares?",
+             "¡hola!,¿que necesitas?", "¡Que gusto verte!"],
+    "bye": ["adios", "un gusto ayudarte", "¡hasta luego!", "¡que tengas un buen dia!"],
+    "nombre": ["Soy tu asistente de servicios escolares", "Me llamo ChatSchool", "soy tu ChatSchool , tu chatSchool de confianza"],
+    "inscripciones": ["Las incripciones son en la oficina de control escolar",
+                      "puedes inscribirte en linea en la pagina oficial"],
+    "requisitos":["CURP, acta de nacimiento, comprobante de domicilio, y fotos de tamaño infantil",
+                  "\nCURP \nActa de nacimiento \nComprobante de domicilio\nFotos taamaño infantil"],
+    "horario":["El horario de atencion es de 7:00AM a 1:30 PM","Puedes consultar los horarios en la plataforma escolar:escuela.com"
+               "De 7:00AM a 1:30 PM"],
+    "uniforme":["El uniforme es obligatorio todos los dias",
+                "Recuerda traer el uniforme completo"],
+    "becas":["Hay becas academicas deportivas.pregunta en control escolar","Puedes solicitar beca en linea"],
+    "calificaciones":["Tus calificaciones puedes consultarlas en control escolar, pregunta a tus maestros si tienes duda",
+                      "Las calificaciones se le entregan a tu tutor"],
+    "director":["El director esta disponible por las mañanas en su oficina","Puedes encontrar al director en un horario de 7:00AM"
+                                                                            "a 12:00PM"],
+    "credencial":["La credencial escolar se tramita en control escolar. Si la perdiste, debes "
+                  "pedir reposicion"],
+    "biblioteca":["La biblioteca abre de 8:00AM a 2PM",
+                  "Puedes pedir libros prestados con tu credencial escolar"],
+    "vacaciones":["Las vacaciones inician segun el calendario escolar ","Tus maestros y superiores te informaran"],
+    "examen":["los examenes son la proxima semana, recuierda estudiar"],
+    "gracias":["Con gusto","No hay de que","Estoy para ayudarte"],
+    "ayuda":["Claro!,¿en que necesitas ayuda?","Dime,¿que puedo hacer por ti?"],
+    "correo":["puedes escribirnos al correo:escuela@cbtis.com"],
+    "constancia":["La constancia se solicita en control escolar y tarda 2 dias"],
+    "permisos":["Tienes que solicitar tu permiso con anticipacion","los permisos solo cubren las asistencias",
+                "Los permisos se solicitan en las oficinas de control escolar"],
+    "especialidades":["Tenemos las siguientes especialidades:\nIA \nLaboratorista quimico","\nContabilidad","\nConstruccion","\nSoporte"]
+
+
+
+}
+
+def buscar_respuestas(mensaje):
+    palabras = set(word_tokenize(mensaje.lower()))
+    coincidencia = palabras & set(respuestas.keys())
+
+    if coincidencia:
+        palabra_encontrada = coincidencia.pop()
+        return random.choice(respuestas[palabra_encontrada])
+
+    return "No entendi tu mensaje, escribe de nuevo."
+
+print("Chatbot: Hola! escribe 'bye' para salir")
+
+while True:
+    mensaje = input("Tu: ")
+    if mensaje.lower() == 'bye':
+        print("Chatbot: adios")
+        break
+
+    respuesta = buscar_respuestas(mensaje)
+    print("Chatbot:", respuesta)</pre>
+            </div>
+        </section>
+
+        <!-- Sección de Glosario -->
+        <section class="section">
+            <h2 class="section-title">Glosario de Funciones</h2>
+            
+            <div class="glossary-item">
+                <div class="function-name">nltk.download('punkt')</div>
+                <div class="function-description">
+                   Sirve para descargar el tokenizador necesario para dividir texto en palabras.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">word_tokenize()</div>
+                <div class="function-description">
+                   Sirve para separar un mensaje en palabras individuales.
+                </div>
+            </div>
+
+            <div class="glossary-item">
+                <div class="function-name">respuestas = { ... }</div>
+                <div class="function-description">
+                    Sirve como base de datos donde se guardan las palabras clave y sus respuestas.
+                </div>
+            </div>
+
+             <div class="glossary-item">
+                <div class="function-name">buscar_respuestas()</div>
+                <div class="function-description">
+                    Sirve para analizar el mensaje del usuario y devolver la respuesta adecuada.
+                </div>
+            </div>
+
+             <div class="glossary-item">
+                <div class="function-name">random.choice()</div>
+                <div class="function-description">
+                   Sirve para elegir una respuesta aleatoria de una lista.
+                </div>
+            </div>
+
+
+             <div class="glossary-item">
+                <div class="function-name">input()</div>
+                <div class="function-description">
+                  Sirve para recibir el texto que escribe el usuario.
+                </div>
+            </div>
+
+             <div class="glossary-item">
+                <div class="function-name">while True:</div>
+                <div class="function-description">
+                 Sirve para mantener el chatbot funcionando continuamente hasta que se escriba "bye".
+                </div>
+            </div>}
+
+             <div class="glossary-item">
+                <div class="function-name">if mensaje.lower() == 'bye':</div>
+                <div class="function-description">
+                 Sirve para detectar cuando el usuario quiere salir y terminar el programa.
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
